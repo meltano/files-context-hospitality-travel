@@ -1,0 +1,60 @@
+version: datasets/v0.3
+title: "Hospitality and travel: modelling it in dbt"
+questions: How should raw hospitality and travel data be modelled in dbt so that it reconciles?
+description: |
+  Conventions for building dbt models on raw hospitality and travel data. They apply on top of the
+  workspace's usual dbt layout: staging, then intermediate, then marts.
+
+  ## Stay dates
+
+  - **Explode reservations into stay nights.** One row per reservation per room per night, from
+    arrival up to (not including) departure. Spread the room revenue across the nights using the
+    nightly rate the PMS holds, not an even split, since rates differ by night.
+  - Attribute revenue to the **stay or service date**, and keep the booking date for pace and lead
+    time.
+  - Use the property's local timezone and its **night audit** date. A charge posted at 01:00
+    usually belongs to the previous business date.
+
+  ## Inventory
+
+  - Build `inventory_daily` per property (and room type) per night from the room count in effect on
+    that date, less out-of-order rooms. Properties add and remove rooms; never hard-code a count.
+  - Agree whether complimentary and house-use rooms count as sold, and apply it in one model.
+
+  ## Money
+
+  - Keep money in `numeric`/`decimal`, with the currency beside it, and never sum across
+    currencies.
+  - Record whether each amount is **gross or net** of VAT (or sales tax), service charge and
+    commission. Sources differ: OTA bookings may be net, the PMS gross. Normalise in staging.
+  - Separate packaged components (a room rate that includes breakfast) into room and food and drink
+    revenue, using the package's allocation rules.
+
+  ## Changing bookings
+
+  - Snapshot the reservation table daily with **dbt snapshots**, or take the PMS's on-the-books
+    report daily, so that pace and pickup can be built for any as-at date. The current reservation
+    table alone cannot reproduce them.
+  - Keep cancelled and no-show reservations with their status; exclude them in marts, not staging.
+  - Deduplicate bookings that arrive from both the channel manager and the PMS, using the channel's
+    confirmation number.
+
+  ## Guests
+
+  Match guest profiles across properties and channels on loyalty number, then email. OTA bookings
+  often carry a masked or proxy email address: do not match on it.
+
+  ## Tests
+
+  - **Reconciliation:** room revenue and room nights per property and night agree with the PMS's
+    daily manager's report.
+  - **Capacity:** room nights sold never exceed room nights available (except agreed overbooking).
+  - **Accepted values** on reservation status, channel, market segment and currency (ISO 4217).
+  - **Freshness** on PMS and POS sources, since a missed night audit leaves a day empty.
+
+  ## Sensitive columns
+
+  Tag guest and payment columns in the model YAML (for example `meta: {pii: true}`) and keep them
+  out of marts that do not need them. See *Hospitality and travel: handling the data*.
+
+  #hospitality-travel #organisation-context

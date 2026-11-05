@@ -1,0 +1,52 @@
+version: datasets/v0.3
+title: "Hospitality and travel: key metrics"
+questions: Which metrics does a hospitality or travel organisation run on, and how is each calculated?
+description: |
+  Standard definitions of the metrics hospitality and travel organisations report. Confirm each one
+  with the revenue or finance team before building it: organisations differ on whether revenue is
+  net of tax and commission, and on which rooms count as available.
+
+  ## Rooms
+
+  | Metric | Definition |
+  |---|---|
+  | Occupancy | Room nights sold ÷ room nights available. Say whether complimentary and house-use rooms count as sold, and out-of-order rooms as available |
+  | Average daily rate (ADR) | Room revenue ÷ room nights sold |
+  | Revenue per available room (RevPAR) | Room revenue ÷ room nights available, equal to occupancy × ADR |
+  | Total revenue per available room (TRevPAR) | Total revenue (rooms, food and drink, other) ÷ room nights available |
+  | Gross operating profit per available room (GOPPAR) | Gross operating profit ÷ room nights available |
+  | RevPAR index | The property's RevPAR ÷ its competitive set's RevPAR, × 100 (from a benchmarking provider such as STR) |
+
+  ## Bookings and distribution
+
+  | Metric | Definition |
+  |---|---|
+  | Pickup | Room nights (or revenue) added to the books for a future date over a period |
+  | Pace | Room nights on the books for a future period ÷ room nights on the books at the same point last year |
+  | Booking lead time | Arrival date less booking date, in days |
+  | Cancellation rate | Cancelled reservations (or room nights) ÷ all reservations made |
+  | No-show rate | Reservations that neither arrived nor cancelled ÷ reservations due to arrive |
+  | Channel mix | Share of room nights or revenue by channel (direct, OTA, GDS, wholesale) |
+  | Cost of acquisition | Commission, transaction and marketing cost ÷ revenue, per channel |
+  | Net RevPAR | RevPAR after distribution costs |
+
+  ## Food and beverage
+
+  | Metric | Definition |
+  |---|---|
+  | Covers | Guests served |
+  | Average spend per cover | Food and beverage revenue ÷ covers |
+  | Revenue per available seat hour (RevPASH) | Revenue ÷ (seats × opening hours) |
+  | Gross profit (GP) % | (Revenue less cost of goods sold) ÷ revenue, usually net of VAT |
+  | Labour cost % | Labour cost ÷ revenue |
+
+  ## Guests and transport
+
+  | Metric | Definition |
+  |---|---|
+  | Repeat guest rate | Guests with a previous stay ÷ all guests in the period |
+  | Review score | Average rating across review sources, with the number of reviews |
+  | Load factor | Revenue passenger kilometres ÷ available seat kilometres (airlines), or passengers ÷ seats |
+  | Ancillary revenue per passenger | Ancillary revenue ÷ passengers carried |
+
+  #hospitality-travel #organisation-context

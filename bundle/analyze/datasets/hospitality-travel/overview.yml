@@ -1,0 +1,55 @@
+version: datasets/v0.3
+title: "Hospitality and travel: industry overview"
+questions: What does a hospitality or travel organisation's data look like, and where does it come from?
+description: |
+  Industry context for this workspace, for the people and AI assistants working in it. It has no
+  query: it is a briefing to read before modelling or analysing this organisation's data.
+
+  ## Segments
+
+  Hospitality and travel covers organisations that sell a stay, a meal, a seat or a trip, usually
+  against a fixed, perishable capacity. The segments differ in which entities and metrics matter
+  most:
+
+  - **Hotels and serviced accommodation:** chains, independents, aparthotels and holiday lets.
+    Rooms, rates, reservations, stays and channels drive the data.
+  - **Food and beverage:** restaurants, pubs, bars and cafés. Covers, checks, menu items, labour and
+    stock.
+  - **Leisure and attractions:** parks, venues, gyms and events. Tickets, timed entries,
+    memberships and secondary spend.
+  - **Travel distribution:** online travel agencies (OTAs), tour operators and travel management
+    companies. Bookings across suppliers, packages, commissions and cancellations.
+  - **Transport providers:** airlines, rail and ferry operators. Seats, fares, passengers and
+    ancillaries, on a schedule.
+
+  ## Typical source systems
+
+  | System | Examples | What it holds |
+  |---|---|---|
+  | Property management system (PMS) | Oracle OPERA Cloud, Mews, Cloudbeds, Protel, Guestline | Rooms, reservations, stays, folios, guest profiles |
+  | Central reservation system (CRS) | SynXis (Sabre), Oracle OPERA Cloud CRS | Inventory and rates across properties, central bookings |
+  | Channel manager | SiteMinder, D-EDGE, RateGain | Availability and rates pushed to channels, bookings pulled back |
+  | Distribution channels | Booking.com, Expedia, the GDSs (Amadeus, Sabre, Travelport) | Bookings, commissions, reviews |
+  | Revenue management | IDeaS, Duetto, Atomize | Forecasts, recommended rates, pickup |
+  | Point of sale (POS) | Oracle Simphony, Lightspeed, Toast, Zonal | Checks, items, payments, voids, discounts |
+  | Booking engine and website | The hotel's own engine, Google Analytics | Direct bookings, search and conversion |
+  | Payments | Adyen, Stripe, Worldpay | Payments, pre-authorisations, refunds, chargebacks |
+  | CRM and loyalty | Salesforce, Revinate, a loyalty platform | Guest profiles, preferences, points, campaigns |
+  | Workforce and procurement | Fourth, Harri, Deputy | Rotas, hours, labour cost, stock and purchasing |
+
+  ## What makes the data different
+
+  - **Capacity is perishable.** An unsold room night or seat cannot be sold later. Most metrics
+    divide by available capacity, so the capacity itself has to be modelled.
+  - **Bookings change before they happen.** A reservation is made, amended and possibly cancelled
+    before the stay. Reports are either "on the books as at" a date or "actualised" after the stay,
+    and the two give different numbers.
+  - **Several dates per booking.** Booking date, arrival date, each stay date and departure date.
+    Revenue belongs to the stay (or service) date.
+  - **Distribution costs vary by channel.** The same room sold direct or through an OTA earns a
+    different net amount.
+  - **Guest and payment data is personal.** See *Hospitality and travel: handling the data*.
+
+  Related datasets: *data model*, *metrics*, *modelling it in dbt*, *handling the data*.
+
+  #hospitality-travel #organisation-context

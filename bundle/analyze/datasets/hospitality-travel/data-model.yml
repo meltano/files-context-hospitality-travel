@@ -1,0 +1,40 @@
+version: datasets/v0.3
+title: "Hospitality and travel: data model"
+questions: What are the core entities of hospitality and travel data, and at what grain should each be modelled?
+description: |
+  The entities most hospitality and travel data reduces to, with the grain and key of each. Use it
+  to map raw source tables onto a consistent model. Names are suggestions; keep the organisation's
+  own terms where they already exist.
+
+  | Entity | Grain (one row per…) | Notes |
+  |---|---|---|
+  | `property` (outlet, venue) | hotel, restaurant or site | Brand, location, opening date, and number of rooms or seats as it changes over time |
+  | `room_type` / `room` | room type / physical room | Rooms can be out of order or out of service, which removes them from available inventory |
+  | `inventory_daily` | property (and room type) per night | Rooms available, out of order and sold. The denominator of occupancy and RevPAR |
+  | `rate_plan` | rate plan | BAR, packages, corporate and group rates, with what is included (breakfast) and the cancellation terms |
+  | `reservation` (booking) | reservation | Booking, arrival and departure dates, channel, source, rate plan, status (confirmed, cancelled, no-show) |
+  | `stay_night` | reservation per room per night | Room revenue per night. Most hotel reporting reads this, not the reservation |
+  | `guest` (profile) | person | Often duplicated across properties and channels. Match on loyalty number or email, and keep the source IDs |
+  | `folio_charge` | charge on a guest bill | Room, food and drink, spa or other revenue, with the service date and department |
+  | `pos_check` / `check_line` | check / item on a check | Covers, items, discounts, voids, tips and payment method |
+  | `ticket` / `segment` | traveller per flight or service | For travel: fare, class, origin, destination and ancillaries |
+  | `group_block` | group booking | Rooms blocked against rooms picked up, by night |
+  | `review` | guest review | Source, score, date and the property or stay it is about |
+  | `payment` | payment, deposit or refund | Linked to a reservation or folio. Hold the payment token only |
+
+  ## Relationships
+
+  - A **property** has **rooms** and **inventory** per night, and sells them through **rate
+    plans** and channels.
+  - A **reservation** belongs to one or more **guests**, covers one or more **stay nights**, and
+    gathers **folio charges** and **payments**.
+  - A **group block** releases rooms as **reservations** are picked up against it.
+  - A **POS check** may be charged to a room and then appears on the guest's **folio**.
+
+  ## Status and history
+
+  Reservations change status and price until the stay. Keep a daily snapshot of reservations on
+  the books, so that pickup, pace and cancellation rates can be measured "as at" any date before
+  arrival.
+
+  #hospitality-travel #organisation-context

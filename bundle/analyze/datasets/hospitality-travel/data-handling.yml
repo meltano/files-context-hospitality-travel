@@ -1,0 +1,49 @@
+version: datasets/v0.3
+title: "Hospitality and travel: handling the data"
+questions: What care does hospitality and travel data need in the warehouse?
+description: |
+  Hospitality and travel data is personal, includes payment cards and sometimes travel documents.
+  These are general practices for a warehouse holding it. They are not legal or compliance
+  advice: the organisation's data protection and compliance team decides what applies to it.
+
+  ## Classify the data
+
+  | Class | Examples | Handling |
+  |---|---|---|
+  | Card data | Full card number (PAN), CVV, card details in reservation notes | **Never load it into the warehouse.** Keep only the payment provider's token and at most the last four digits. Card numbers typed into free-text PMS fields are a common leak: exclude or scrub those fields |
+  | Travel documents | Passport and ID numbers, advance passenger information (API), visa details | Leave them in the operational system. Load only what a report needs, and restrict it |
+  | Special category data | Dietary needs that reveal religion or health, accessibility needs, medical information | Restrict to operational use. Keep out of marketing and general marts |
+  | Personal data | Name, address, email, phone, date of birth, loyalty number, stay history | Restrict access, mask in non-production and in marts that do not need it |
+  | Location and behavioural data | Wi-Fi logins, app location, key card use | Collect and keep only with a clear purpose. Aggregate where possible |
+  | Children's data | Child guests, ages for pricing | Keep only what pricing and safety need |
+
+  ## Practices
+
+  - **Least privilege.** Separate raw, staging and mart schemas, and grant raw schemas only to the
+    pipelines and the people who maintain them.
+  - **Mask by default.** Hash or mask guest contact details in shared marts, and give unmasked
+    access by role.
+  - **Marketing consent.** Keep each guest's consent and its source with the profile, and filter on
+    it for any marketing audience. Third-party channel bookings may not carry consent to market.
+  - **No production data in development** without masking.
+  - **Retention.** Keep guest data no longer than needed. Financial and tax records have fixed
+    retention periods; agree them with finance and model deletion explicitly.
+  - **Data subject requests.** Under GDPR and UK GDPR a guest can ask for their data or for its
+    erasure, so know where each guest's data lives.
+
+  ## Rules to be aware of
+
+  Which apply depends on the organisation's country and activities. Common ones:
+
+  - **Card payments everywhere:** PCI DSS. Most hotels and restaurants hold card data through their
+    PMS, POS and payment provider, so keep the warehouse out of scope.
+  - **UK and EU:** UK GDPR and GDPR, PECR (UK) and the ePrivacy Directive for marketing, the Package
+    Travel Regulations for package holidays, and ATOL protection for UK flight-inclusive packages.
+    The UK Immigration (Hotel Records) Order requires hotels to record foreign guests' passport
+    details.
+  - **Airlines:** advance passenger information and passenger name record (PNR) rules set by each
+    destination country.
+  - **US:** state privacy laws such as the CCPA/CPRA in California, and the FTC's rule on unfair or
+    deceptive fees, which requires lodging prices to be shown with mandatory fees included.
+
+  #hospitality-travel #organisation-context
