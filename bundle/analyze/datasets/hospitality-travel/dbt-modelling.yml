@@ -12,8 +12,10 @@ description: |
     nightly rate the PMS holds, not an even split, since rates differ by night.
   - Attribute revenue to the **stay or service date**, and keep the booking date for pace and lead
     time.
-  - Use the property's local timezone and its **night audit** date. A charge posted at 01:00
-    usually belongs to the previous business date.
+  - Store timestamps in UTC (GMT+00:00, no daylight saving), and use the property's local timezone
+    (UK: GMT in winter, BST = GMT+01:00 in summer) and its **night audit** date. A charge posted at
+    01:00 local time (01:00 GMT in winter, 00:00 GMT in summer) usually belongs to the previous
+    business date.
 
   ## Inventory
 
